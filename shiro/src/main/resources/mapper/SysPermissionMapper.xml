@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shirotest.mapper.SysPermissionMapper">
+    <resultMap id="BaseResultMap" type="com.example.shirotest.entity.SysPermission">
+        <id property="id" column="permission_id"/>
+        <result property="name" column="permission_name"/>
+        <result property="description" column="permission_desc"/>
+        <result property="url" column="permission_url"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        sp.permission_id,permission_name,permission_desc,permission_url
+    </sql>
+    <select id="selectPermissionByRoleId" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        FROM sys_permission sp
+        LEFT JOIN sys_role_permission srp ON #{id} = srp.role_id
+        where sp.permission_id = srp.permission_id
+    </select>
+</mapper>
